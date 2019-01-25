@@ -98,9 +98,62 @@
             opacity: 1;
         }
 
+        .popupWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            background-color: rgba(0,0,0, 0.7);
+            z-index: 2;
+            display: none;
+        }
+
+        .popupWindow {
+            padding: 40px;
+            width: 370px;
+            margin: 10vh auto;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .popupWindow__form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0 auto;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .popupWindow__form input {
+            margin-bottom: 15px;
+            outline: none;
+            padding: 20px;
+            background-color: inherit;
+            border: 1.8px solid #dce0eb;
+            font-size: 18px;
+            color: rgb(137, 147, 173);
+        }
+
     </style>
 </head>
 <body>
+
+    <div class="popupWrapper">
+        <div class="popupWindow">
+            <h1>Форма заявки</h1>
+            <div class="popupWindow__form">
+
+                <input type="text" placeholder="Имя" name="name" id="formName">
+                <input type="text" placeholder="Телефон" name="number" id='formNumber' maxlength='12'>
+                <input type="submit" value="Заказать проект" id='formSend'>
+
+
+                <div class="check_wrapper">
+                    <input type="checkbox" id="form__checkbox"><label for="form__checkbox">Я согласен с условиями обработки персональных данных</label></div>
+            </div>
+        </div>
+    </div>
 
     <div class="window">
         <div class="panel">
@@ -127,7 +180,7 @@
         var socket = io();
         var $input = $('#input');
         var $msgsField = $('#messages');
-
+        var $popupWrapper = $('.popupWrapper');
 
         socket.on('setId', function (id) {
             userId = id;
@@ -144,6 +197,16 @@
             $msgsField.append($(tagName).text('[user | id=' + idOtherUser + ']message: ' + msg));
         });
 
+        $('.a_settings').click(function () {
+            $popupWrapper.css({"display":"block"});
+        });
+
+        $popupWrapper.click(function (event) {
+            if (event.target == this) {
+                $popupWrapper.css({"display":"none"})
+            }
+        });
+
 
         $('form').submit(function (e) {
             e.preventDefault();
@@ -155,7 +218,6 @@
         $('.a_Clear').click(function () {
             $('#messages').html('');
         })
-
     </script>
 <script type="text/javascript" src="main.js"></script></body>
 </html>
