@@ -31,7 +31,7 @@
             position: relative;
         }
 
-        form {
+        .messageForm {
             background: #dcdcdc;
             padding: 3px;
             width: 100%;
@@ -39,14 +39,14 @@
             bottom: 0;
         }
 
-        form input {
+        .messageForm input {
             outline: none;
             border: 0;
             padding: 10px;
             width: 90%;
         }
 
-        form button {
+        .messageForm button {
             cursor: pointer;
             outline: none;
             width: 10%;
@@ -142,16 +142,10 @@
     <div class="popupWrapper">
         <div class="popupWindow">
             <h1>Форма заявки</h1>
-            <div class="popupWindow__form">
-
+            <form action="" class="settingsForm popupWindow__form">
                 <input type="text" placeholder="Имя" name="name" id="formName">
-                <input type="text" placeholder="Телефон" name="number" id='formNumber' maxlength='12'>
-                <input type="submit" value="Заказать проект" id='formSend'>
-
-
-                <div class="check_wrapper">
-                    <input type="checkbox" id="form__checkbox"><label for="form__checkbox">Я согласен с условиями обработки персональных данных</label></div>
-            </div>
+                <input type="submit" value="Сохранить" id='formSend'>
+            </form>
         </div>
     </div>
 
@@ -161,7 +155,7 @@
             <a href="" class="a_Clear">Clear</a>
         </div>
         <ul id="messages"></ul>
-        <form action="">
+        <form action="" class="messageForm">
             <input id="input" autocomplete="off" /><button>Send</button>
         </form>
     </div>
@@ -177,6 +171,7 @@
 
         var tagName;
         var userId = 0;
+        var userName = 'User';
         var socket = io();
         var $input = $('#input');
         var $msgsField = $('#messages');
@@ -186,7 +181,7 @@
             userId = id;
         });
 
-        socket.on('chat message', function (msg, idOtherUser) {
+        socket.on('chat message', function (msg, idOtherUser, nameOtherUser) {
 
             if (userId == idOtherUser) {
                 tagName = '<li class="selfMessage">';
@@ -194,11 +189,12 @@
                 tagName = '<li>';
             }
 
-            $msgsField.append($(tagName).text('[user | id=' + idOtherUser + ']message: ' + msg));
+            $msgsField.append($(tagName).text('[user | '+nameOtherUser+']message: ' + msg));
         });
 
         $('.a_settings').click(function () {
             $popupWrapper.css({"display":"block"});
+            return false;
         });
 
         $popupWrapper.click(function (event) {
@@ -208,9 +204,15 @@
         });
 
 
-        $('form').submit(function (e) {
+        $('.settingsForm').submit(function (e) {
             e.preventDefault();
-            socket.emit('chat message', $input.val(), userId);
+            userName = $('#formName').val();
+            $popupWrapper.css({"display":"none"})
+        });
+
+        $('.messageForm').submit(function (e) {
+            e.preventDefault();
+            socket.emit('chat message', $input.val(), userId, userName);
             $input.val('');
             return false;
         });

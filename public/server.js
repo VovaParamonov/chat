@@ -20,10 +20,10 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function(){
         console.log('user disconnected');
     });
-    socket.on('chat message', function(msg, userId){
-        console.log('[user | id='+userId+']message: ' + msg);
+    socket.on('chat message', function(msg, userId, userName){
+        console.log('[user | '+userName+']message: ' + msg);
 
-        io.emit('chat message', msg, userId);
+        io.emit('chat message', msg, userId, userName);
     });
 
     socket.broadcast.emit('hi');
