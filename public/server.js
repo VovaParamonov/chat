@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var userIdCounter = 0;
 
 app.get('/', function(req, res){
-    res.sendfile(__dirname + '/index.html');
+    res.sendfile(__dirname + '/dist/index.html');
 });
 
 io.emit('some event', { for: 'everyone' });
