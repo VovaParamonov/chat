@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    color: #333333;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 150px;
+}
+

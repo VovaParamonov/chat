@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chaat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+            background-color: #c6c6c6;
+        }
+
+        a {
+            text-decoration: none;
+
+        }
+
+        .window {
+            background-color: #aaa;
+            margin: 10vh auto;
+            width: 80vw;
+            height: 60vh;
+            position: relative;
+        }
+
+        form {
+            background: #dcdcdc;
+            padding: 3px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        form input {
+            outline: none;
+            border: 0;
+            padding: 10px;
+            width: 90%;
+        }
+
+        form button {
+            cursor: pointer;
+            outline: none;
+            width: 10%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            height: 90%;
+            overflow-y: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background-color: rgba(113, 113, 113, 0.5);
+        }
+
+        .selfMessage {
+            text-align: right;
+        }
+        .panel {
+            height: 40px;
+            background: rgb(130, 224, 255);
+            display: flex;
+            justify-content: flex-end;
+            align-content: center;
+            align-items: center;
+        }
+
+        .panel a {
+            margin-right: 20px;
+            background-color: #0cffbb;
+            opacity: 0.6;
+            transition: all 0.3s;
+            line-height: 100%;
+            padding: 6px;
+            border-radius: 5px;
+            border: 0.5px solid #12D189;
+        }
+
+        .panel a:hover {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="window">
+        <div class="panel">
+            <a href="" class="a_settings">Settings</a>
+            <a href="" class="a_Clear">Clear</a>
+        </div>
+        <ul id="messages"></ul>
+        <form action="">
+            <input id="input" autocomplete="off" /><button>Send</button>
+        </form>
+    </div>
+
+
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script>
+
+        var tagName;
+        var userId = 0;
+        var socket = io();
+        var $input = $('#input');
+        var $msgsField = $('#messages');
+
+
+        socket.on('setId', function (id) {
+            userId = id;
+        });
+
+        socket.on('chat message', function (msg, idOtherUser) {
+
+            if (userId == idOtherUser) {
+                tagName = '<li class="selfMessage">';
+            } else {
+                tagName = '<li>';
+            }
+
+            $msgsField.append($(tagName).text('[user | id=' + idOtherUser + ']message: ' + msg));
+        });
+
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            socket.emit('chat message', $input.val(), userId);
+            $input.val('');
+            return false;
+        });
+
+        $('.a_Clear').click(function () {
+            $('#messages').html('');
+        })
+    </script>
+</body>
+</html>
