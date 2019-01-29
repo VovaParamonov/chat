@@ -6,220 +6,60 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chaat</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font: 13px Helvetica, Arial;
-            background-color: #c6c6c6;
-        }
-
-        a {
-            text-decoration: none;
-
-        }
-
-        .window {
-            background-color: #aaa;
-            margin: 10vh auto;
-            width: 80vw;
-            height: 60vh;
-            position: relative;
-        }
-
-        .messageForm {
-            background: #dcdcdc;
-            padding: 3px;
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-        }
-
-        .messageForm input {
-            outline: none;
-            border: 0;
-            padding: 10px;
-            width: 90%;
-        }
-
-        .messageForm button {
-            cursor: pointer;
-            outline: none;
-            width: 10%;
-            background: rgb(130, 224, 255);
-            border: none;
-            padding: 10px;
-        }
-
-        #messages {
-            list-style-type: none;
-            height: 90%;
-            overflow-y: auto;
-            margin: 0;
-            padding: 0;
-        }
-
-        #messages li {
-            padding: 5px 10px;
-        }
-
-        #messages li:nth-child(odd) {
-            background-color: rgba(113, 113, 113, 0.5);
-        }
-
-        .selfMessage {
-            text-align: right;
-        }
-        .panel {
-            height: 40px;
-            background: rgb(130, 224, 255);
-            display: flex;
-            justify-content: flex-end;
-            align-content: center;
-            align-items: center;
-        }
-
-        .panel a {
-            margin-right: 20px;
-            background-color: #0cffbb;
-            opacity: 0.6;
-            transition: all 0.3s;
-            line-height: 100%;
-            padding: 6px;
-            border-radius: 5px;
-            border: 0.5px solid #12D189;
-        }
-
-        .panel a:hover {
-            opacity: 1;
-        }
-
-        .popupWrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100vw;
-            background-color: rgba(0,0,0, 0.7);
-            z-index: 2;
-            display: none;
-        }
-
-        .popupWindow {
-            padding: 40px;
-            width: 370px;
-            margin: 10vh auto;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-        }
-        .popupWindow__form {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin: 0 auto;
-            height: 100%;
-            justify-content: space-between;
-        }
-        .popupWindow__form input {
-            margin-bottom: 15px;
-            outline: none;
-            padding: 20px;
-            background-color: inherit;
-            border: 1.8px solid #dce0eb;
-            font-size: 18px;
-            color: rgb(137, 147, 173);
-        }
-
-    </style>
 </head>
 <body>
 
-    <div class="popupWrapper">
-        <div class="popupWindow">
-            <h1>Настройки</h1>
-            <form action="" class="settingsForm popupWindow__form">
-                <input type="text" placeholder="Имя" name="name" id="formName">
-                <input type="submit" value="Сохранить" id='formSend'>
-            </form>
-        </div>
-    </div>
+<div class="popupWrapper">
+    <div class="popupWindow">
+        <h1>Настройки</h1>
+        <form action="" class="settingsForm popupWindow__form">
+            <input type="text" placeholder="Имя" name="name" class="settings__name">
+            <div class="settings__colors">
 
-    <div class="window">
-        <div class="panel">
-            <a href="" class="a_settings">Settings</a>
-            <a href="" class="a_Clear">Clear</a>
-        </div>
-        <ul id="messages"></ul>
-        <form action="" class="messageForm">
-            <input id="input" autocomplete="off" /><button>Send</button>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_red" data-colorID="red"
+                                                  name="colors"><label style="background-color: #ff2634"
+                                                                       data-colorID="#ff2634"
+                                                                       for="settings__colors_red"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_blue" data-colorID="blue"
+                                                  name="colors"><label style="background-color: #4d58ff"
+                                                                       data-colorID="#4d58ff"
+                                                                       for="settings__colors_blue"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_green" data-colorID="green"
+                                                  name="colors"><label style="background-color: #46ff30"
+                                                                       data-colorID=#46ff30"
+                                                                       for="settings__colors_green"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_pink" data-colorID="pink"
+                                                  name="colors"><label style="background-color: #ff44a9"
+                                                                       data-colorID="#ff44a9"
+                                                                       for="settings__colors_pink"></label></div>
+
+
+                <!--<button data-colorID="red" style="background-color: red"></button>-->
+                <!--<button data-colorID="blue" style="background-color: blue"></button>-->
+                <!--<button data-colorID="yellow" style="background-color: yellow"></button>-->
+                <!--<button data-colorID="pink" style="background-color: pink"></button>-->
+            </div>
+            <input type="submit" value="Сохранить" id='formSend'>
         </form>
     </div>
+</div>
 
+<div class="window">
+    <div class="panel">
+        <a href="" class="a_settings">Settings</a>
+        <a href="" class="a_Clear">Clear</a>
+    </div>
+    <ul class="messages_ul">
+    </ul>
+    <p class="writeInfo"></p>
+    <form action="" class="messageForm">
+        <input id="input" autocomplete="off"/>
+        <button>Send</button>
+    </form>
+</div>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
-
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-
-    <script>
-
-        var tagName;
-        var userId = 0;
-        var userName = 'User';
-        var socket = io();
-        var $input = $('#input');
-        var $msgsField = $('#messages');
-        var $popupWrapper = $('.popupWrapper');
-
-        socket.on('setId', function (id) {
-            userId = id;
-        });
-
-        socket.on('chat message', function (msg, idOtherUser, nameOtherUser) {
-
-            if (userId == idOtherUser) {
-                tagName = '<li class="selfMessage">';
-            } else {
-                tagName = '<li>';
-            }
-
-            $msgsField.append($(tagName).text('[user | '+nameOtherUser+']message: ' + msg));
-        });
-
-        $('.a_settings').click(function () {
-            $popupWrapper.css({"display":"block"});
-            return false;
-        });
-
-        $popupWrapper.click(function (event) {
-            if (event.target == this) {
-                $popupWrapper.css({"display":"none"})
-            }
-        });
-
-
-        $('.settingsForm').submit(function (e) {
-            e.preventDefault();
-            userName = $('#formName').val();
-            $popupWrapper.css({"display":"none"})
-        });
-
-        $('.messageForm').submit(function (e) {
-            e.preventDefault();
-            socket.emit('chat message', $input.val(), userId, userName);
-            $input.val('');
-            return false;
-        });
-
-        $('.a_Clear').click(function () {
-            $('#messages').html('');
-        })
-    </script>
 </body>
 </html>

@@ -8,7 +8,8 @@ app.use(express.static(__dirname + '/dist'));
 
 var globalDate = new Date;
 var logFileName = `messages_log_[${globalDate.getTime()}].txt`;
-fs.writeFile(logFileName,`История сообщений от [${globalDate.getFullYear()}.${globalDate.getMonth()}.${globalDate.getDate()}  ${globalDate.getHours()}:${globalDate.getMinutes()}]`, function (err, data){});
+fs.writeFile(logFileName, `История сообщений от [${globalDate.getFullYear()}.${globalDate.getMonth()}.${globalDate.getDate()}  ${globalDate.getHours()}:${globalDate.getMinutes()}]`, function (err, data) {
+});
 
 var userIdCounter = 0;
 
@@ -18,10 +19,8 @@ app.get('/', function (req, res) {
 });
 
 
-
 io.on('connection', function (socket) {
 
-    //io.emit('chat message', "server","server");
     userIdCounter++;
     socket.emit('setId', userIdCounter);
     console.log('a user connected, id=' + userIdCounter);
@@ -34,9 +33,10 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg, userId, userName, userColor) {
         let date = new Date;
         console.log('[user | ' + userName + ']message: ' + msg);
-        fs.appendFile(logFileName, '\n[user | ' + userName + ']: ' + msg, function (err,dat) {});
+        fs.appendFile(logFileName, '\n[user | ' + userName + ']: ' + msg, function (err, dat) {
+        });
 
-        io.emit('chat message', msg, userId, userName, userColor, ''+date.getHours()+':'+date.getMinutes());
+        io.emit('chat message', msg, userId, userName, userColor, '' + date.getHours() + ':' + date.getMinutes());
     });
 
     socket.broadcast.emit('hi');
