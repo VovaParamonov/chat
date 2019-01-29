@@ -1,5 +1,6 @@
 node_modules
 package-lock.json
+messages*
 $.idea
 .idea/workspace.xml
 .idea/workspace.xml
