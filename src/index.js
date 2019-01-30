@@ -1,24 +1,37 @@
 import $ from 'jquery';
 import './css/style.css';
 
-var socket = io();
-//----------------------------------------------------DOM_variables-----------------------------------------------------
-var $input = $('#input');
-var $window = $('.window');
-var $msgsField = $('.messages_ul');
-var $popupWrapper = $('.popupWrapper');
-var $settings = $('.a_settings');
-var $settingsInputName = $('.settings__name');
+let socket = io();
+// document.cookie = "name=; expires=-1";
+// document.cookie = "color=; expires=-1";
+//----------------------------------------------------DOM_letiables-----------------------------------------------------
+let $input = $('#input');
+let $window = $('.window');
+let $msgsField = $('.messages_ul');
+let $popupWrapper = $('.popupWrapper');
+let $settings = $('.a_settings');
+let $settingsInputName = $('.settings__name');
+let $settingsInputPassword = $('.settings__password');
+let $settingsInputColor = $('.settings__colors');
+let $settingsSave = $('#formSend');
 //======================================================================================================================
-//----------------------------------------------------Variables---------------------------------------------------------
-var writeTimer;
-var tagName;
-var userId = 0;
-var userName = getCookie('name') || 'User';
-var userColor = getCookie('color') || 'Default';
+//----------------------------------------------------letiables---------------------------------------------------------
+let writeTimer;
+let tagName;
+let userId = 0;
+let userPassword = getCookie("password") || "none";
+let userName = getCookie('name') || 'User';
+let userColor = getCookie('color') || 'Default';
 //----------------------------------------------------Socket_funcs------------------------------------------------------
-socket.on('setId', function (id) {
-    userId = id;
+socket.on('login', function (id) {
+    let freeId = id;
+    $popupWrapper.css({"display": "block"});
+    if (getCookie('name')){
+        socket.emit('userLogin', "login", userName, userPassword, userColor);
+        alert(userName);
+    } else {
+        userId = freeId;
+    }
 });
 
 socket.on('chat write', function (idOtherUser, nameOtherUser) {
@@ -26,7 +39,7 @@ socket.on('chat write', function (idOtherUser, nameOtherUser) {
     clearTimeout(writeTimer);
     writeTimer = setTimeout(function () {
         $window.children('.writeInfo').text('');
-    }, 2000);
+    }, 1000);
 });
 
 socket.on('chat message', function (msg, idOtherUser, nameOtherUser, colorOtherUser, sendTime) {
@@ -40,13 +53,23 @@ socket.on('chat message', function (msg, idOtherUser, nameOtherUser, colorOtherU
     $msgsField.prepend($(tagName).html('<span style="color: ' + colorOtherUser + '" class="userName">[' + nameOtherUser + ']:</span> ' + msg));
 });
 
+socket.on('set settings', function (name,password, color) {
+    userName = name;
+    userColor = color;
+    userPassword = password;
+    document.cookie = "password=" + password;
+    document.cookie = "name=" + name;
+    document.cookie = "color=" + color;
+    $popupWrapper.css({"display": "none"});
+});
+
 function messageSend(msg) {
     socket.emit('chat message', msg, userId, userName, userColor);
     $input.val('');
 }
 
 //======================================================================================================================
-//----------------------------------------------------DOM_handles-------------------------------------------------------
+//----------------------------------------------------DOM_handlers-------------------------------------------------------
 $settings.click(function () {
     $popupWrapper.css({"display": "block"});
     return false;
@@ -64,13 +87,10 @@ $input.on('input change', function () {
 
 $('.settingsForm').submit(function (e) {
     e.preventDefault();
-    if (!$settingsInputName.val()) {
+    if (!$settingsInputName.val() || !$settingsInputPassword.val()) {
         alert("Введите имя");
     } else {
-        userName = $settingsInputName.val();
-        document.cookie = "name=" + userName;
-        document.cookie = "color=" + userColor;
-        $popupWrapper.css({"display": "none"});
+        socket.emit('userLogin',"Register", $settingsInputName.val(),$settingsInputPassword.val(), userColor);
     }
 });
 
@@ -88,11 +108,12 @@ $('.a_Clear').click(function () {
 $('.radio-wrapper label').click(function () {
     userColor = $(this).attr('data-colorID');
 });
+
 //======================================================================================================================
 //----------------------------------------------------Other_funcs-------------------------------------------------------
 // возвращает cookie с именем name, если есть, если нет, то undefined
 function getCookie(name) {
-    var matches = document.cookie.match(new RegExp(
+    let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
