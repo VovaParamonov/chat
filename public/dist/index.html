@@ -9,44 +9,58 @@
 </head>
 <body>
 
-    <div class="popupWrapper">
-        <div class="popupWindow">
-            <h1>Настройки</h1>
-            <form action="" class="settingsForm popupWindow__form">
-                <input type="text" placeholder="Имя" name="name" class="settings__name">
-                <div class="settings__colors">
+<div class="popupWrapper">
+    <div class="popupWindow">
+        <h1>Настройки</h1>
+        <form action="" class="settingsForm popupWindow__form">
+            <input type="text" placeholder="Имя" name="name" class="settings__name">
+            <input type="password" placeholder="Паролль" class="settings__password">
+            <div class="settings__colors">
 
-                    <div class="radio-wrapper"><input type="radio" id="settings__colors_red" data-colorID="red" name="colors"><label style="background-color: #ff2634" data-colorID="#ff2634" for="settings__colors_red"></label></div>
-                    <div class="radio-wrapper"><input type="radio" id="settings__colors_blue" data-colorID="blue" name="colors"><label style="background-color: #4d58ff" data-colorID="#4d58ff" for="settings__colors_blue"></label></div>
-                    <div class="radio-wrapper"><input type="radio" id="settings__colors_green" data-colorID="green" name="colors"><label style="background-color: #46ff30" data-colorID=#46ff30" for="settings__colors_green"></label></div>
-                    <div class="radio-wrapper"><input type="radio" id="settings__colors_pink" data-colorID="pink" name="colors"><label style="background-color: #ff44a9" data-colorID="#ff44a9" for="settings__colors_pink"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_red" data-colorID="red"
+                                                  name="colors"><label style="background-color: #ff2634"
+                                                                       data-colorID="#ff2634"
+                                                                       for="settings__colors_red"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_blue" data-colorID="blue"
+                                                  name="colors"><label style="background-color: #4d58ff"
+                                                                       data-colorID="#4d58ff"
+                                                                       for="settings__colors_blue"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_green" data-colorID="green"
+                                                  name="colors"><label style="background-color: #46ff30"
+                                                                       data-colorID=#46ff30"
+                                                                       for="settings__colors_green"></label></div>
+                <div class="radio-wrapper"><input type="radio" id="settings__colors_pink" data-colorID="pink"
+                                                  name="colors"><label style="background-color: #ff44a9"
+                                                                       data-colorID="#ff44a9"
+                                                                       for="settings__colors_pink"></label></div>
 
 
-                    <!--<button data-colorID="red" style="background-color: red"></button>-->
-                    <!--<button data-colorID="blue" style="background-color: blue"></button>-->
-                    <!--<button data-colorID="yellow" style="background-color: yellow"></button>-->
-                    <!--<button data-colorID="pink" style="background-color: pink"></button>-->
-                </div>
-                <input type="submit" value="Сохранить" id='formSend'>
-            </form>
-        </div>
-    </div>
-
-    <div class="window">
-        <div class="panel">
-            <a href="" class="a_settings">Settings</a>
-            <a href="" class="a_Clear">Clear</a>
-        </div>
-        <ul class="messages_ul">
-        </ul>
-        <p class="writeInfo"></p>
-        <form action="" class="messageForm">
-            <input id="input" autocomplete="off" /><button>Send</button>
+                <!--<button data-colorID="red" style="background-color: red"></button>-->
+                <!--<button data-colorID="blue" style="background-color: blue"></button>-->
+                <!--<button data-colorID="yellow" style="background-color: yellow"></button>-->
+                <!--<button data-colorID="pink" style="background-color: pink"></button>-->
+            </div>
+            <input type="submit" value="Войти" id='formSend'>
         </form>
     </div>
+</div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<div class="window">
+    <div class="panel">
+        <!--<a href="" class="a_settings">Settings</a>-->
+        <a href="" class="a_Clear">Clear</a>
+    </div>
+    <ul class="messages_ul">
+    </ul>
+    <p class="writeInfo"></p>
+    <form action="" class="messageForm">
+        <input id="input" autocomplete="off"/>
+        <button>Send</button>
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
 <script type="text/javascript" src="main.js"></script></body>
 </html>
